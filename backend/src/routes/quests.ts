@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import pool from '../models/db';
 import { RowDataPacket, ResultSetHeader } from 'mysql2';
 
@@ -12,12 +12,12 @@ interface AuthRequest extends Request {
 router.get('/', async (req: AuthRequest, res: Response) => {
   try {
     const [rows] = await pool.execute<RowDataPacket[]>(
-      \SELECT pq.*, qt.title, qt.description, qt.quest_type, qt.xp_reward, 
+      `SELECT pq.*, qt.title, qt.description, qt.quest_type, qt.xp_reward, 
               qt.stat_bonus_type, qt.stat_bonus_amount, qt.difficulty, qt.icon, qt.category
        FROM player_quests pq
        JOIN quest_templates qt ON pq.quest_template_id = qt.id
        WHERE pq.player_id = ? AND pq.completed = FALSE
-       ORDER BY qt.quest_type, pq.due_date\,
+       ORDER BY qt.quest_type, pq.due_date`,
       [req.userId]
     );
 
@@ -50,10 +50,10 @@ router.put('/:questId/progress', async (req: AuthRequest, res: Response) => {
     const { progress } = req.body;
 
     const [rows] = await pool.execute<RowDataPacket[]>(
-      \SELECT pq.*, qt.xp_reward, qt.stat_bonus_type, qt.stat_bonus_amount
+      `SELECT pq.*, qt.xp_reward, qt.stat_bonus_type, qt.stat_bonus_amount
        FROM player_quests pq
        JOIN quest_templates qt ON pq.quest_template_id = qt.id
-       WHERE pq.id = ? AND pq.player_id = ?\,
+       WHERE pq.id = ? AND pq.player_id = ?`,
       [questId, req.userId]
     );
 
@@ -110,7 +110,7 @@ router.put('/:questId/progress', async (req: AuthRequest, res: Response) => {
       // Update stat if bonus exists
       if (quest.stat_bonus_type && quest.stat_bonus_amount > 0) {
         await pool.execute(
-          \UPDATE player_stats SET \ = \ + ? WHERE player_id = ?\,
+          `UPDATE player_stats SET ${quest.stat_bonus_type} = ${quest.stat_bonus_type} + ? WHERE player_id = ?`,
           [quest.stat_bonus_amount, req.userId]
         );
       }
@@ -134,12 +134,12 @@ router.get('/completed', async (req: AuthRequest, res: Response) => {
   try {
     const { days = 30 } = req.query;
     const [rows] = await pool.execute<RowDataPacket[]>(
-      \SELECT pq.*, qt.title, qt.quest_type, qt.xp_reward, qt.category
+      `SELECT pq.*, qt.title, qt.quest_type, qt.xp_reward, qt.category
        FROM player_quests pq
        JOIN quest_templates qt ON pq.quest_template_id = qt.id
        WHERE pq.player_id = ? AND pq.completed = TRUE 
        AND pq.completed_at >= DATE_SUB(NOW(), INTERVAL ? DAY)
-       ORDER BY pq.completed_at DESC\,
+       ORDER BY pq.completed_at DESC`,
       [req.userId, days]
     );
     res.json(rows);
@@ -154,17 +154,17 @@ router.post('/refresh-daily', async (req: AuthRequest, res: Response) => {
   try {
     // Delete old incomplete daily quests
     await pool.execute(
-      \DELETE FROM player_quests WHERE player_id = ? 
+      `DELETE FROM player_quests WHERE player_id = ? 
        AND quest_template_id IN (SELECT id FROM quest_templates WHERE quest_type = 'daily')
-       AND completed = FALSE\,
+       AND completed = FALSE`,
       [req.userId]
     );
 
     // Assign new daily quests
     await pool.execute(
-      \INSERT INTO player_quests (player_id, quest_template_id, target, due_date)
+      `INSERT INTO player_quests (player_id, quest_template_id, target, due_date)
       SELECT ?, id, target_count, DATE_ADD(NOW(), INTERVAL 1 DAY)
-      FROM quest_templates WHERE quest_type = 'daily' AND is_active = TRUE\,
+      FROM quest_templates WHERE quest_type = 'daily' AND is_active = TRUE`,
       [req.userId]
     );
 

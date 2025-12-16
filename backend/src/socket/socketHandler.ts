@@ -1,4 +1,4 @@
-﻿import { Server, Socket } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import pool from '../models/db';
 import { RowDataPacket } from 'mysql2';
@@ -38,7 +38,7 @@ export const initializeSocket = (io: Server) => {
   });
 
   io.on('connection', (socket: SocketWithUser) => {
-    console.log(\Player connected: \ (\)\);
+    console.log(`Player connected: ${socket.username} (${socket.id})`);
     
     if (socket.userId) {
       connectedUsers.set(socket.userId, socket.id);
@@ -88,17 +88,17 @@ export const initializeSocket = (io: Server) => {
     // Get leaderboard updates
     socket.on('request_leaderboard', async () => {
       const [rows] = await pool.execute<RowDataPacket[]>(
-        \SELECT p.id, p.username, p.level, p.xp, r.name as rank_name, r.color as rank_color
+        `SELECT p.id, p.username, p.level, p.xp, r.name as rank_name, r.color as rank_color
          FROM players p
          LEFT JOIN ranks r ON p.rank_id = r.id
          ORDER BY p.level DESC, p.xp DESC
-         LIMIT 10\
+         LIMIT 10`
       );
       socket.emit('leaderboard_update', rows);
     });
 
     socket.on('disconnect', () => {
-      console.log(\Player disconnected: \\);
+      console.log(`Player disconnected: ${socket.id}`);
       if (socket.userId) {
         connectedUsers.delete(socket.userId);
       }

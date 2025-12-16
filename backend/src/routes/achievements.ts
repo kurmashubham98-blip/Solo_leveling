@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import pool from '../models/db';
 import { RowDataPacket } from 'mysql2';
 
@@ -12,11 +12,11 @@ interface AuthRequest extends Request {
 router.get('/', async (req: AuthRequest, res: Response) => {
   try {
     const [rows] = await pool.execute<RowDataPacket[]>(
-      SELECT a.*, 
+      `SELECT a.*, 
         (SELECT id FROM player_achievements WHERE player_id = ? AND achievement_id = a.id) as unlocked_id,
         (SELECT unlocked_at FROM player_achievements WHERE player_id = ? AND achievement_id = a.id) as unlocked_at
        FROM achievements a
-       ORDER BY a.rarity DESC,
+       ORDER BY a.rarity DESC`,
       [req.userId, req.userId]
     );
 
@@ -38,9 +38,9 @@ router.post('/check', async (req: AuthRequest, res: Response) => {
   try {
     // Get player data
     const [playerRows] = await pool.execute<RowDataPacket[]>(
-      SELECT p.*, r.name as rank_name FROM players p
+      `SELECT p.*, r.name as rank_name FROM players p
        LEFT JOIN ranks r ON p.rank_id = r.id
-       WHERE p.id = ?,
+       WHERE p.id = ?`,
       [req.userId]
     );
     const player = playerRows[0];

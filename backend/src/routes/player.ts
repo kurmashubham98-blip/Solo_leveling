@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import pool from '../models/db';
 import { RowDataPacket, ResultSetHeader } from 'mysql2';
 
@@ -18,12 +18,12 @@ const calculateXPForLevel = (level: number): number => {
 router.get('/profile', async (req: AuthRequest, res: Response) => {
   try {
     const [rows] = await pool.execute<RowDataPacket[]>(
-      \SELECT p.*, ps.strength, ps.agility, ps.intelligence, ps.vitality, ps.luck, ps.stat_points,
+      `SELECT p.*, ps.strength, ps.agility, ps.intelligence, ps.vitality, ps.luck, ps.stat_points,
               r.name as rank_name, r.color as rank_color
        FROM players p
        LEFT JOIN player_stats ps ON p.id = ps.player_id
        LEFT JOIN ranks r ON p.rank_id = r.id
-       WHERE p.id = ?\,
+       WHERE p.id = ?`,
       [req.userId]
     );
 
@@ -132,7 +132,7 @@ router.put('/stats', async (req: AuthRequest, res: Response) => {
     }
 
     await pool.execute(
-      \UPDATE player_stats SET \ = \ + ?, stat_points = stat_points - ? WHERE player_id = ?\,
+      `UPDATE player_stats SET ${stat} = ${stat} + ?, stat_points = stat_points - ? WHERE player_id = ?`,
       [amount, amount, req.userId]
     );
 
@@ -147,11 +147,11 @@ router.put('/stats', async (req: AuthRequest, res: Response) => {
 router.get('/leaderboard', async (req: AuthRequest, res: Response) => {
   try {
     const [rows] = await pool.execute<RowDataPacket[]>(
-      \SELECT p.id, p.username, p.level, p.xp, p.streak_days, r.name as rank_name, r.color as rank_color
+      `SELECT p.id, p.username, p.level, p.xp, p.streak_days, r.name as rank_name, r.color as rank_color
        FROM players p
        LEFT JOIN ranks r ON p.rank_id = r.id
        ORDER BY p.level DESC, p.xp DESC
-       LIMIT 100\
+       LIMIT 100`
     );
 
     res.json(rows);

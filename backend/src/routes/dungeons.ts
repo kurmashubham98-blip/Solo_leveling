@@ -1,4 +1,4 @@
-﻿import { Router, Request, Response } from 'express';
+import { Router, Request, Response } from 'express';
 import pool from '../models/db';
 import { RowDataPacket, ResultSetHeader } from 'mysql2';
 
@@ -18,11 +18,11 @@ router.get('/', async (req: AuthRequest, res: Response) => {
     const playerLevel = playerRows[0]?.level || 1;
 
     const [rows] = await pool.execute<RowDataPacket[]>(
-      SELECT d.*, 
+      `SELECT d.*, 
         (SELECT COUNT(*) FROM dungeon_progress dp WHERE dp.dungeon_id = d.id AND dp.player_id = ? AND dp.status = 'completed') as times_completed
        FROM dungeons d 
        WHERE d.is_active = TRUE
-       ORDER BY d.required_level,
+       ORDER BY d.required_level`,
       [req.userId]
     );
 
@@ -43,10 +43,10 @@ router.get('/', async (req: AuthRequest, res: Response) => {
 router.get('/active', async (req: AuthRequest, res: Response) => {
   try {
     const [rows] = await pool.execute<RowDataPacket[]>(
-      SELECT dp.*, d.name, d.description, d.difficulty, d.xp_reward, d.time_limit_hours, d.quest_count, d.rewards_json
+      `SELECT dp.*, d.name, d.description, d.difficulty, d.xp_reward, d.time_limit_hours, d.quest_count, d.rewards_json
        FROM dungeon_progress dp
        JOIN dungeons d ON dp.dungeon_id = d.id
-       WHERE dp.player_id = ? AND dp.status = 'in_progress',
+       WHERE dp.player_id = ? AND dp.status = 'in_progress'`,
       [req.userId]
     );
 
@@ -123,9 +123,9 @@ router.post('/:dungeonId/start', async (req: AuthRequest, res: Response) => {
 
     // Assign dungeon quests
     await pool.execute(
-      INSERT INTO player_quests (player_id, quest_template_id, target, due_date)
+      `INSERT INTO player_quests (player_id, quest_template_id, target, due_date)
       SELECT ?, id, target_count, DATE_ADD(NOW(), INTERVAL ? HOUR)
-      FROM quest_templates WHERE quest_type = 'dungeon' AND is_active = TRUE LIMIT ?,
+      FROM quest_templates WHERE quest_type = 'dungeon' AND is_active = TRUE LIMIT ?`,
       [req.userId, dungeon.time_limit_hours, dungeon.quest_count]
     );
 
@@ -146,10 +146,10 @@ router.post('/:progressId/complete', async (req: AuthRequest, res: Response) => 
     const { progressId } = req.params;
 
     const [rows] = await pool.execute<RowDataPacket[]>(
-      SELECT dp.*, d.xp_reward, d.rewards_json
+      `SELECT dp.*, d.xp_reward, d.rewards_json
        FROM dungeon_progress dp
        JOIN dungeons d ON dp.dungeon_id = d.id
-       WHERE dp.id = ? AND dp.player_id = ? AND dp.status = 'in_progress',
+       WHERE dp.id = ? AND dp.player_id = ? AND dp.status = 'in_progress'`,
       [progressId, req.userId]
     );
 
