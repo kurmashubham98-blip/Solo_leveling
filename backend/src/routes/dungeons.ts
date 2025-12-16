@@ -125,8 +125,9 @@ router.post('/:dungeonId/start', async (req: AuthRequest, res: Response) => {
     await pool.execute(
       INSERT INTO player_quests (player_id, quest_template_id, target, due_date)
       SELECT ?, id, target_count, DATE_ADD(NOW(), INTERVAL ? HOUR)
-      FROM quest_templates WHERE quest_type = 'dungeon' AND is_active = TRUE LIMIT ?
-    , [req.userId, dungeon.time_limit_hours, dungeon.quest_count]);
+      FROM quest_templates WHERE quest_type = 'dungeon' AND is_active = TRUE LIMIT ?,
+      [req.userId, dungeon.time_limit_hours, dungeon.quest_count]
+    );
 
     res.json({
       progress_id: result.insertId,

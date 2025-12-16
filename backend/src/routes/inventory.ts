@@ -12,10 +12,10 @@ interface AuthRequest extends Request {
 router.get('/', async (req: AuthRequest, res: Response) => {
   try {
     const [rows] = await pool.execute<RowDataPacket[]>(
-      SELECT i.*, it.name, it.description, it.item_type, it.rarity, it.effect_json, it.duration_hours, it.icon
+      \SELECT i.*, it.name, it.description, it.item_type, it.rarity, it.effect_json, it.duration_hours, it.icon
        FROM inventory i
        JOIN items it ON i.item_id = it.id
-       WHERE i.player_id = ?,
+       WHERE i.player_id = ?\,
       [req.userId]
     );
 
@@ -37,10 +37,10 @@ router.post('/:itemId/use', async (req: AuthRequest, res: Response) => {
     const { itemId } = req.params;
 
     const [rows] = await pool.execute<RowDataPacket[]>(
-      SELECT i.*, it.name, it.item_type, it.effect_json, it.duration_hours
+      \SELECT i.*, it.name, it.item_type, it.effect_json, it.duration_hours
        FROM inventory i
        JOIN items it ON i.item_id = it.id
-       WHERE i.id = ? AND i.player_id = ?,
+       WHERE i.id = ? AND i.player_id = ?\,
       [itemId, req.userId]
     );
 
@@ -57,12 +57,12 @@ router.post('/:itemId/use', async (req: AuthRequest, res: Response) => {
     }
     
     if (effect.stat_boost) {
-      for (const [stat, value] of Object.entries(effect.stat_boost)) {
-        await pool.execute(
-          UPDATE player_stats SET  =  + ? WHERE player_id = ?,
-          [value, req.userId]
-        );
-      }
+        for (const [stat, value] of Object.entries(effect.stat_boost)) {
+            await pool.execute(
+                \UPDATE player_stats SET \ = \ + ? WHERE player_id = ?\,
+                [value, req.userId]
+            );
+        }
     }
 
     if (effect.remove_debuff) {

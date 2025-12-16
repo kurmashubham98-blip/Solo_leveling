@@ -32,10 +32,11 @@ router.post('/register', async (req, res) => {
 
     // Assign initial daily quests
     await pool.execute(
-      INSERT INTO player_quests (player_id, quest_template_id, target, due_date)
+      \INSERT INTO player_quests (player_id, quest_template_id, target, due_date)
       SELECT ?, id, target_count, DATE_ADD(NOW(), INTERVAL 1 DAY)
-      FROM quest_templates WHERE quest_type = 'daily' AND is_active = TRUE LIMIT 5
-    , [playerId]);
+      FROM quest_templates WHERE quest_type = 'daily' AND is_active = TRUE LIMIT 5\,
+      [playerId]
+    );
 
     const token = jwt.sign(
       { userId: playerId },
@@ -131,12 +132,12 @@ router.get('/verify', async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secret') as { userId: number };
     
     const [rows] = await pool.execute<RowDataPacket[]>(
-      SELECT p.*, ps.strength, ps.agility, ps.intelligence, ps.vitality, ps.luck, ps.stat_points,
+      \SELECT p.*, ps.strength, ps.agility, ps.intelligence, ps.vitality, ps.luck, ps.stat_points,
               r.name as rank_name, r.color as rank_color
        FROM players p
        LEFT JOIN player_stats ps ON p.id = ps.player_id
        LEFT JOIN ranks r ON p.rank_id = r.id
-       WHERE p.id = ?,
+       WHERE p.id = ?\,
       [decoded.userId]
     );
 
