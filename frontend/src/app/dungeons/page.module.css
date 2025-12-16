@@ -1,0 +1,114 @@
+﻿.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.title {
+  font-size: var(--font-3xl);
+  font-weight: 800;
+  margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+}
+
+.activeSection {
+  margin-bottom: var(--space-xl);
+}
+
+.activeSection h2 {
+  font-size: var(--font-lg);
+  margin-bottom: var(--space-md);
+}
+
+.activeCard {
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-elevated));
+  border-radius: var(--border-radius-xl);
+  padding: var(--space-xl);
+  border: 2px solid var(--accent-primary);
+  animation: glow 2s infinite;
+}
+
+.activeCard h3 {
+  font-size: var(--font-xl);
+  margin: var(--space-md) 0 var(--space-sm);
+}
+
+.difficulty {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  font-weight: 700;
+  font-size: var(--font-sm);
+}
+
+.timer {
+  margin-top: var(--space-md);
+  font-weight: 600;
+  color: var(--warning);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: var(--space-lg);
+}
+
+.skeleton {
+  height: 280px;
+  border-radius: var(--border-radius-xl);
+}
+
+.dungeonName {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-xs);
+}
+
+.dungeonDesc {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.dungeonBody {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.dungeonStats {
+  display: flex;
+  gap: var(--space-md);
+  font-size: var(--font-sm);
+  color: var(--text-muted);
+}
+
+.reward {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.xp {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.completed {
+  color: var(--success);
+  font-weight: 500;
+}
+
+.locked {
+  color: var(--text-muted);
+  font-style: italic;
+}

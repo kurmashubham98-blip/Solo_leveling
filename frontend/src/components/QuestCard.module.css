@@ -1,0 +1,138 @@
+﻿.card {
+  background: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-md);
+  border-left: 4px solid var(--quest-color);
+  transition: all var(--transition-normal);
+  animation: slideUp var(--transition-slow);
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  transform: translateX(4px);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.iconWrap {
+  width: 48px;
+  height: 48px;
+  background: var(--bg-elevated);
+  border-radius: var(--border-radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon {
+  font-size: var(--font-xl);
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--font-base);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+}
+
+.description {
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.reward {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.xp {
+  font-size: var(--font-lg);
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.xpLabel {
+  font-size: var(--font-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.progressSection {
+  margin-bottom: var(--space-md);
+}
+
+.progressBar {
+  height: 6px;
+  background: var(--bg-elevated);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+  margin-bottom: var(--space-xs);
+}
+
+.progressFill {
+  height: 100%;
+  background: var(--quest-color);
+  border-radius: var(--border-radius-full);
+  transition: width var(--transition-normal);
+}
+
+.progressText {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-sm);
+  color: var(--text-secondary);
+}
+
+.bonus {
+  color: var(--success);
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.type {
+  font-size: var(--font-xs);
+  color: var(--quest-color);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.completeBtn {
+  padding: var(--space-xs) var(--space-md);
+  background: var(--quest-color);
+  color: var(--bg-primary);
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  font-size: var(--font-sm);
+  transition: all var(--transition-normal);
+}
+
+.completeBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px color-mix(in srgb, var(--quest-color) 50%, transparent);
+}
+
+.daily { --quest-color: var(--quest-daily); }
+.weekly { --quest-color: var(--quest-weekly); }
+.side { --quest-color: var(--quest-side); }
+.dungeon { --quest-color: var(--quest-dungeon); }

@@ -1,0 +1,175 @@
+﻿.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.title {
+  font-size: var(--font-3xl);
+  font-weight: 800;
+  margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+}
+
+.podium {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+}
+
+.podiumItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--bg-card);
+  border-radius: var(--border-radius-xl);
+  padding: var(--space-xl);
+  border: 1px solid var(--glass-border);
+  transition: all var(--transition-normal);
+}
+
+.podiumItem:hover {
+  transform: translateY(-8px);
+}
+
+.rank1 {
+  order: 2;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), var(--bg-card));
+  border-color: rgba(255, 215, 0, 0.3);
+  padding-bottom: var(--space-2xl);
+}
+
+.rank2 {
+  order: 1;
+}
+
+.rank3 {
+  order: 3;
+}
+
+.podiumRank {
+  font-size: var(--font-3xl);
+}
+
+.podiumAvatar {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-2xl);
+  font-weight: 800;
+  color: white;
+}
+
+.podiumName {
+  font-size: var(--font-lg);
+  font-weight: 700;
+}
+
+.podiumLevel {
+  font-size: var(--font-xl);
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.podiumXP {
+  color: var(--text-muted);
+  font-size: var(--font-sm);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.listSkeleton {
+  height: 60px;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  background: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-md) var(--space-lg);
+  transition: all var(--transition-normal);
+}
+
+.listItem:hover {
+  background: var(--bg-card-hover);
+}
+
+.currentPlayer {
+  border: 1px solid var(--accent-primary);
+  background: rgba(99, 102, 241, 0.1);
+}
+
+.listRank {
+  width: 40px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.listAvatar {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-elevated);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.listInfo {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.listName {
+  font-weight: 600;
+}
+
+.listStats {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.listLevel {
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.listXP {
+  color: var(--text-muted);
+  font-size: var(--font-sm);
+}
+
+@media (max-width: 768px) {
+  .podium {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .podiumItem {
+    order: unset !important;
+  }
+}

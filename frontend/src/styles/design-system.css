@@ -1,0 +1,709 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* Solo Leveling Habit Tracker - Design System */
+
+/* ========================
+   CSS Variables & Theme
+   ======================== */
+:root {
+  /* Core Colors - Dark Theme inspired by Solo Leveling */
+  --bg-primary: #0d0d0f;
+  --bg-secondary: #1a1a1f;
+  --bg-card: #1e1e24;
+  --bg-card-hover: #252530;
+  --bg-elevated: #2a2a35;
+  
+  /* Accent Colors */
+  --accent-primary: #6366f1;
+  --accent-secondary: #8b5cf6;
+  --accent-glow: rgba(99, 102, 241, 0.3);
+  --accent-purple: #a855f7;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #22d3ee;
+  
+  /* Status Colors */
+  --success: #22c55e;
+  --success-glow: rgba(34, 197, 94, 0.3);
+  --warning: #eab308;
+  --warning-glow: rgba(234, 179, 8, 0.3);
+  --danger: #ef4444;
+  --danger-glow: rgba(239, 68, 68, 0.3);
+  --info: #3b82f6;
+  
+  /* Rarity Colors */
+  --rarity-common: #9ca3af;
+  --rarity-uncommon: #22c55e;
+  --rarity-rare: #3b82f6;
+  --rarity-epic: #a855f7;
+  --rarity-legendary: #f59e0b;
+  
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --text-disabled: #4b5563;
+  
+  /* Rank Colors */
+  --rank-e: #808080;
+  --rank-d: #2ECC71;
+  --rank-c: #3498DB;
+  --rank-b: #9B59B6;
+  --rank-a: #E74C3C;
+  --rank-s: #F39C12;
+  --rank-national: #E91E63;
+  --rank-monarch: #FFD700;
+  
+  /* Quest Type Colors */
+  --quest-daily: #22d3ee;
+  --quest-weekly: #a855f7;
+  --quest-side: #f59e0b;
+  --quest-dungeon: #ef4444;
+  
+  /* Layout */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 24px;
+  --border-radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px var(--accent-glow);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms ease;
+  
+  /* Glass Effect */
+  --glass-bg: rgba(30, 30, 36, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 12px;
+  
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  
+  /* Font Sizes */
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+  --font-base: 1rem;
+  --font-lg: 1.125rem;
+  --font-xl: 1.25rem;
+  --font-2xl: 1.5rem;
+  --font-3xl: 2rem;
+  --font-4xl: 2.5rem;
+  
+}
+
+/* ========================
+   Base Styles
+   ======================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+/* ========================
+   Scrollbar Styling
+   ======================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-elevated);
+  border-radius: var(--border-radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+/* ========================
+   Glass Card Effect
+   ======================== */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+}
+
+/* ========================
+   Animations
+   ======================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes glow {
+  0%, 100% { 
+    box-shadow: 0 0 5px var(--accent-glow);
+  }
+  50% { 
+    box-shadow: 0 0 20px var(--accent-glow), 0 0 30px var(--accent-glow);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes xpFill {
+  from { width: 0; }
+}
+
+@keyframes statIncrement {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); color: var(--success); }
+  100% { transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn var(--transition-normal);
+}
+
+.animate-slide-up {
+  animation: slideUp var(--transition-slow);
+}
+
+.animate-pulse {
+  animation: pulse 2s infinite;
+}
+
+.animate-glow {
+  animation: glow 2s infinite;
+}
+
+/* ========================
+   Utility Classes
+   ======================== */
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.bg-gradient {
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+}
+
+.border-glow {
+  border: 1px solid var(--accent-primary);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ========================
+   XP Bar Component
+   ======================== */
+.xp-bar-container {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-elevated);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-purple));
+  border-radius: var(--border-radius-full);
+  transition: width var(--transition-slow);
+  position: relative;
+}
+
+.xp-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+  background-size: 200% 100%;
+}
+
+/* ========================
+   Progress Ring
+   ======================== */
+.progress-ring {
+  transform: rotate(-90deg);
+}
+
+.progress-ring-circle {
+  transition: stroke-dashoffset var(--transition-slow);
+  stroke-linecap: round;
+}
+
+/* ========================
+   Quest Card Styles
+   ======================== */
+.quest-card {
+  background: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-md);
+  border-left: 4px solid var(--quest-daily);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.quest-card:hover {
+  background: var(--bg-card-hover);
+  transform: translateX(4px);
+}
+
+.quest-card.weekly {
+  border-left-color: var(--quest-weekly);
+}
+
+.quest-card.side {
+  border-left-color: var(--quest-side);
+}
+
+.quest-card.dungeon {
+  border-left-color: var(--quest-dungeon);
+}
+
+.quest-progress-bar {
+  height: 4px;
+  background: var(--bg-elevated);
+  border-radius: var(--border-radius-full);
+  margin-top: var(--space-sm);
+  overflow: hidden;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  border-radius: var(--border-radius-full);
+  transition: width var(--transition-normal);
+}
+
+/* ========================
+   Button Styles
+   ======================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  font-size: var(--font-sm);
+  transition: all var(--transition-normal);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-purple));
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.btn-secondary {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent-primary);
+}
+
+.btn-success {
+  background: var(--success);
+  color: white;
+}
+
+.btn-success:hover {
+  box-shadow: 0 0 15px var(--success-glow);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: white;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+  color: var(--text-primary);
+  background: var(--bg-elevated);
+}
+
+/* ========================
+   Stat Display
+   ======================== */
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  background: var(--bg-elevated);
+  border-radius: var(--border-radius-md);
+}
+
+.stat-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-lg);
+}
+
+.stat-icon.strength { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.stat-icon.agility { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+.stat-icon.intelligence { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+.stat-icon.vitality { background: rgba(249, 115, 22, 0.2); color: #f97316; }
+.stat-icon.luck { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
+
+/* ========================
+   Rank Badge
+   ======================== */
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  font-weight: 700;
+  font-size: var(--font-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.rank-badge.e-rank { background: rgba(128, 128, 128, 0.2); color: var(--rank-e); }
+.rank-badge.d-rank { background: rgba(46, 204, 113, 0.2); color: var(--rank-d); }
+.rank-badge.c-rank { background: rgba(52, 152, 219, 0.2); color: var(--rank-c); }
+.rank-badge.b-rank { background: rgba(155, 89, 182, 0.2); color: var(--rank-b); }
+.rank-badge.a-rank { background: rgba(231, 76, 60, 0.2); color: var(--rank-a); }
+.rank-badge.s-rank { background: rgba(243, 156, 18, 0.2); color: var(--rank-s); animation: glow 2s infinite; }
+.rank-badge.national { background: rgba(233, 30, 99, 0.2); color: var(--rank-national); animation: glow 2s infinite; }
+.rank-badge.monarch { background: rgba(255, 215, 0, 0.2); color: var(--rank-monarch); animation: glow 1.5s infinite; }
+
+/* ========================
+   Calendar Heatmap
+   ======================== */
+.calendar-day {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--bg-elevated);
+}
+
+.calendar-day.level-1 { background: rgba(99, 102, 241, 0.25); }
+.calendar-day.level-2 { background: rgba(99, 102, 241, 0.5); }
+.calendar-day.level-3 { background: rgba(99, 102, 241, 0.75); }
+.calendar-day.level-4 { background: var(--accent-primary); }
+
+/* ========================
+   Dungeon Card
+   ======================== */
+.dungeon-card {
+  background: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-normal);
+  border: 1px solid transparent;
+}
+
+.dungeon-card:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.dungeon-card.locked {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.dungeon-header {
+  padding: var(--space-md);
+  background: linear-gradient(135deg, var(--bg-elevated), var(--bg-card));
+}
+
+.dungeon-difficulty {
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--border-radius-sm);
+  font-weight: 700;
+  font-size: var(--font-xs);
+}
+
+/* ========================
+   Notification Toast
+   ======================== */
+.toast {
+  position: fixed;
+  bottom: var(--space-lg);
+  right: var(--space-lg);
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-md) var(--space-lg);
+  animation: slideUp var(--transition-normal);
+  z-index: 1000;
+}
+
+.toast.success {
+  border-left: 4px solid var(--success);
+}
+
+.toast.error {
+  border-left: 4px solid var(--danger);
+}
+
+.toast.xp {
+  border-left: 4px solid var(--accent-primary);
+}
+
+/* ========================
+   Chart Styles (Graph)
+   ======================== */
+.chart-container {
+  background: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  padding: var(--space-lg);
+}
+
+.chart-grid-line {
+  stroke: var(--bg-elevated);
+  stroke-width: 1;
+}
+
+.chart-line {
+  fill: none;
+  stroke: var(--success);
+  stroke-width: 2;
+}
+
+.chart-area {
+  fill: url(#chartGradient);
+}
+
+.chart-dot {
+  fill: var(--success);
+}
+
+/* ========================
+   Responsive Grid
+   ======================== */
+.grid {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+@media (max-width: 1024px) {
+  .grid-cols-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-cols-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .grid-cols-4,
+  .grid-cols-3,
+  .grid-cols-2 { grid-template-columns: 1fr; }
+}
+
+/* ========================
+   Layout Components
+   ======================== */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+.sidebar {
+  width: 280px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--glass-border);
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: var(--space-lg);
+}
+
+.main-content {
+  margin-left: 280px;
+  padding: var(--space-lg);
+  min-height: 100vh;
+}
+
+@media (max-width: 1024px) {
+  .sidebar {
+    transform: translateX(-100%);
+    z-index: 100;
+    transition: transform var(--transition-normal);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+  }
+}
+
+/* ========================
+   Form Inputs
+   ======================== */
+.input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--bg-elevated);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--border-radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-base);
+  transition: all var(--transition-fast);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.input-label {
+  font-size: var(--font-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* ========================
+   Loading States
+   ======================== */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-elevated) 25%,
+    var(--bg-card-hover) 50%,
+    var(--bg-elevated) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--border-radius-md);
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--bg-elevated);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
