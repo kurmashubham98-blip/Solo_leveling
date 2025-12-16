@@ -15,6 +15,7 @@ import dungeonRoutes from './routes/dungeons';
 import inventoryRoutes from './routes/inventory';
 import achievementRoutes from './routes/achievements';
 import statisticsRoutes from './routes/statistics';
+import adminRoutes from './routes/admin';
 
 // Import middleware and socket
 import { authMiddleware } from './middleware/auth';
@@ -49,6 +50,9 @@ app.use('/api/dungeons', authMiddleware, dungeonRoutes);
 app.use('/api/inventory', authMiddleware, inventoryRoutes);
 app.use('/api/achievements', authMiddleware, achievementRoutes);
 app.use('/api/statistics', authMiddleware, statisticsRoutes);
+
+// Admin / Init
+app.use('/api/admin', adminRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => {
